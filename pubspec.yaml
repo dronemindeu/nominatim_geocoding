@@ -1,0 +1,23 @@
+name: nominatim_geocoding
+description: A library to get geocoding using nominatim API.
+version: 0.0.1
+# homepage: 
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  get: ">=4.6.1 <6.0.0"
+  get_storage: ">=2.0.3 <3.0.0"
+
+dev_dependencies:
+  flutter_lints: ^1.0.4
+  flutter_test:
+    sdk: flutter
+    
+flutter: 
+
