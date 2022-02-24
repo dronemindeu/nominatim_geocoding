@@ -1,6 +1,6 @@
 name: nominatim_geocoding
 description: A library to forward and reverse geocoding using OSM nominatim API.
-version: 0.0.1
+version: 0.0.2
 # homepage: 
 repository: https://github.com/dronemindeu/nominatim_geocoding
 
