@@ -1,15 +1,39 @@
 import 'package:equatable/equatable.dart';
 
+/// [Address] represents the actual location address
+/// with attributes as follows:
+/// [houseNumber], [road], [neighbourhood],
+/// [suburb], [city], [district], [state], [postalCode],
+/// [country], [countryCode].
 class Address extends Equatable {
+  /// [houseNumber] of the location.
   final String houseNumber;
+
+  /// [road] name of the location.
   final String road;
+
+  /// [neighbourhood] name of the location.
   final String neighbourhood;
+
+  /// [suburb] name of the location.
   final String suburb;
+
+  /// [city] name of the location.
   final String city;
+
+  /// [district] of the location.
   final String district;
+
+  /// [state] of the location.
   final String state;
+
+  /// [postalCode] of the location.
   final int postalCode;
+
+  /// [country] of the location.
   final String country;
+
+  /// [countryCode] of the location.
   final String countryCode;
 
   const Address({
@@ -25,6 +49,7 @@ class Address extends Equatable {
     required this.countryCode,
   });
 
+  /// Create [Address] from json [Map] object.
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       houseNumber: json.containsKey('house_number') ? json['house_number'] : '',
@@ -47,6 +72,7 @@ class Address extends Equatable {
     );
   }
 
+  /// Json [Map] object of this [Address].
   Map<String, dynamic> toJson() {
     return {
       'house_number': houseNumber,
@@ -67,6 +93,7 @@ class Address extends Equatable {
     return 'Address(house_number: $houseNumber, road: $road, neighbourhood: $neighbourhood, suburb: $suburb, city: $city, district: $district, state: $state, postcode: $postalCode, country: $country, country_code: $countryCode)';
   }
 
+  /// Copy this [Address] with the given attributes if given not null.
   Address copyWith({
     String? houseNumber,
     String? road,

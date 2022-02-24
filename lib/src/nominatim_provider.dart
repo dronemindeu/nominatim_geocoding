@@ -3,10 +3,16 @@ import 'package:get/get.dart';
 import 'model/coordinate.dart';
 import 'model/geocoding.dart';
 
+/// [NominatimProvider] provider class to call OSM nominatim API
+/// docs at `https://nominatim.org/release-docs/develop/`.
 class NominatimProvider extends GetConnect {
+  /// Get provider object. Stictly use this getter to create object.
   static NominatimProvider get to => Get.find();
 
+  /// Forward geocoding path for the API.
   static const String forwardPath = '/search';
+
+  /// Reverse geocoding path for the API.
   static const String reversePath = '/reverse';
 
   @override
@@ -33,6 +39,7 @@ class NominatimProvider extends GetConnect {
     super.onInit();
   }
 
+  /// API call for the forward geocoding with address query.
   Future<Response<dynamic>> forwardRequest(String queryAddress) => get(
         forwardPath,
         query: {
@@ -42,6 +49,7 @@ class NominatimProvider extends GetConnect {
         },
       );
 
+  /// API call for the reverse geocoding with coordinates query.
   Future<Response<dynamic>> reverseRequest(Coordinate coordinate) => get(
         reversePath,
         query: {
