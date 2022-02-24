@@ -51,6 +51,6 @@ Geocoding geocoding = await NominatimGeocoding.to.reverseGeoCoding(coordinate);
 
 ## Additional information
 
-- OSM Nominatim Open-Source API is used for geocoding.
+- OSM Nominatim Open-Source API `https://nominatim.org/release-docs/develop/` is used for geocoding.
 - Uses `get_storage` plugin to store cache.
 - `get` plugin is used for API calls.
