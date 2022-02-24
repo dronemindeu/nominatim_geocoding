@@ -4,6 +4,7 @@ import 'package:nominatim_geocoding/src/model/geocoding.dart';
 
 import 'model/coordinate.dart';
 
+
 class NominatimStorage {
   static NominatimStorage get to => Get.find();
 
