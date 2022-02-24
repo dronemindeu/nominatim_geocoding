@@ -9,9 +9,9 @@ import 'src/nominatim_provider.dart';
 import 'src/nominatim_service.dart';
 import 'src/nominatim_storage.dart';
 
-export 'src/model/address.dart';
-export 'src/model/coordinate.dart';
-export 'src/model/geocoding.dart';
+export 'src/model/address.dart' show Address;
+export 'src/model/coordinate.dart' show Coordinate;
+export 'src/model/geocoding.dart' show Geocoding;
 export 'src/nominatim_provider.dart' hide NominatimProvider;
 export 'src/nominatim_service.dart' hide NominatimService;
 export 'src/nominatim_storage.dart' hide NominatimStorage;
