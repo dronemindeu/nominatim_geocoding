@@ -1,6 +1,6 @@
 # Nominatim Geocoding
 
-[![pub package](https://img.shields.io/badge/nominatim__geocoding-0.0.4-blue)](https://pub.dev/packages/nominatim_geocoding)
+[![pub package](https://img.shields.io/badge/nominatim__geocoding-0.0.5-blue)](https://pub.dev/packages/nominatim_geocoding)
 [![popularity](https://badges.bar/nominatim_geocoding/popularity)](https://pub.dev/packages/nominatim_geocoding/score)
 [![likes](https://badges.bar/nominatim_geocoding/likes)](https://pub.dev/packages/nominatim_geocoding/score)
 [![pub points](https://badges.bar/nominatim_geocoding/pub%20points)](https://pub.dev/packages/nominatim_geocoding/score)
@@ -17,7 +17,7 @@ Flutter package to get forward and reverse geocoding.
 Add dependency in `pubspec.yaml` file as
 
 ```yaml
-nominatim_geocoding: ^0.0.4
+nominatim_geocoding: ^0.0.5
 ```
 
 ### Initialize the package
@@ -31,7 +31,12 @@ void main() async {
 ### Forward Geocoding
 
 ```dart
-Geocoding geocoding = await NominatimGeocoding.to.forwardGeoCoding('$cityName', postalCode);
+Geocoding geocoding = await NominatimGeocoding.to.forwardGeoCoding(
+    const Address(
+        city: 'Braunschweig',
+        postalCode: 38120,
+    ),
+);
 ```
 
 ### Reverse Geocoding

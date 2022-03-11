@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'model/address.dart';
 import 'model/coordinate.dart';
 import 'model/geocoding.dart';
 
@@ -18,6 +19,9 @@ class NominatimStorage {
 
   /// const [String] key for the cached requests.
   static const String _cachedData = 'CACHED_DATA';
+
+  /// const [int] value for the number of cached requests.
+  static const int _numberCached = 100;
 
   /// Clear all storage.
   Future<void> clearAll() => _storage.erase();
@@ -40,7 +44,7 @@ class NominatimStorage {
   Future<void> updateCacheData(Geocoding geocoding) {
     List? data = _storage.read<List>(_cachedData);
     if (data != null) {
-      if (data.length >= 20) {
+      if (data.length >= _numberCached) {
         data.removeAt(0);
       }
       data.add(geocoding.toJson());
@@ -63,15 +67,17 @@ class NominatimStorage {
     return null;
   }
 
-  /// Get cached data of geocoding request based on [cityName] and [postalCode].
-  Geocoding? getCachedAddressData(String cityName, int postalCode) {
+  /// Get cached data of geocoding request based on [address] instance of [Address].
+  Geocoding? getCachedAddressData(Address address) {
     List? datas = _storage.read<List>(_cachedData);
     if (datas != null) {
       Geocoding? coding;
       for (var data in datas) {
         final code = Geocoding.fromJson(data);
-        if (code.address.city == cityName &&
-            code.address.postalCode == postalCode) {
+        if (code.address == address ||
+            (address.checkEmpty &&
+                code.address.city == address.city &&
+                code.address.postalCode == address.postalCode)) {
           coding = code;
           break;
         }

@@ -15,3 +15,8 @@
 ## 0.0.4
 
 * Updated the readme doc for the package.
+
+## 0.0.5
+
+* Updated the forward geocoding to accept the parameter as Address instance.
+* Updated the example for forward geocoding

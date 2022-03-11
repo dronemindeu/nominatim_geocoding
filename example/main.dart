@@ -4,8 +4,10 @@ void main() async {
   await NominatimGeocoding.init();
 
   Geocoding result = await NominatimGeocoding.to.forwardGeoCoding(
-    'Braunschweig',
-    38120,
+    const Address(
+      city: 'Braunschweig',
+      postalCode: 38120,
+    ),
   );
   print(result);
 

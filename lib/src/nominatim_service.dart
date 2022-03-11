@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:nominatim_geocoding/src/model/geocoding.dart';
 import 'package:nominatim_geocoding/src/nominatim_provider.dart';
 
+import 'model/address.dart';
 import 'model/coordinate.dart';
 
 /// [NominatimService] to response mapping and forwarding calls to [NominatimProvider].
@@ -39,12 +40,11 @@ class NominatimService {
     }
   }
 
-  /// Provider call for the forward geocoding with address query.
-  Future<Geocoding> forwardCoding(String cityName, int postalCode) async =>
-      _responseMapping(
-          await _provider.forwardRequest('$cityName, $postalCode'), postalCode);
+  /// Provider call for the forward geocoding with [address] instance of [Address] query.
+  Future<Geocoding> forwardCoding(Address address) async => _responseMapping(
+      await _provider.forwardRequest(address.requestStr), address.postalCode);
 
-  /// Provider call for the reverse geocoding with [Coordinate] query.
+  /// Provider call for the reverse geocoding with [coordinate] instance of [Coordinate] query.
   Future<Geocoding> reverseCoding(Coordinate coordinate) async =>
       _responseMapping(await _provider.reverseRequest(coordinate));
 }

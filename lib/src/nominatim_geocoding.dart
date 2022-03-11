@@ -41,14 +41,18 @@ class NominatimGeocoding {
   /// [NominatimStorage] object.
   static final NominatimStorage _storage = NominatimStorage.to;
 
-  /// Forward geocoding of the address with [cityName] and [postalCode].
-  Future<Geocoding> forwardGeoCoding(String cityName, int postalCode) async {
-    Geocoding? result = _storage.getCachedAddressData(cityName, postalCode);
+  /// Forward geocoding of the [address] type [Address].
+  /// City attribute should not be empty.
+  /// Postalcode must be greater than 0.
+  Future<Geocoding> forwardGeoCoding(Address address) async {
+    assert(address.city.isNotEmpty && address.postalCode > 0);
+
+    Geocoding? result = _storage.getCachedAddressData(address);
     if (result != null) {
       return result;
     } else {
       if (_storage.isLastSentSafe()) {
-        result = await _service.forwardCoding(cityName, postalCode);
+        result = await _service.forwardCoding(address);
         _storage.updateLastSent();
         _storage.updateCacheData(result);
         return result;

@@ -37,16 +37,16 @@ class Address extends Equatable {
   final String countryCode;
 
   const Address({
-    required this.houseNumber,
-    required this.road,
-    required this.neighbourhood,
-    required this.suburb,
+    this.houseNumber = '',
+    this.road = '',
+    this.neighbourhood = '',
+    this.suburb = '',
     required this.city,
-    required this.district,
-    required this.state,
+    this.district = '',
+    this.state = '',
     required this.postalCode,
-    required this.country,
-    required this.countryCode,
+    this.country = '',
+    this.countryCode = '',
   });
 
   /// Create [Address] from json [Map] object.
@@ -91,6 +91,24 @@ class Address extends Equatable {
   @override
   String toString() {
     return 'Address(house_number: $houseNumber, road: $road, neighbourhood: $neighbourhood, suburb: $suburb, city: $city, district: $district, state: $state, postcode: $postalCode, country: $country, country_code: $countryCode)';
+  }
+
+  /// Get [String] request of the this instance
+  String get requestStr {
+    return '$houseNumber $road $neighbourhood $suburb $city, $district $state $postalCode $country $countryCode'
+        .replaceAll(RegExp(r'\s+'), ' ');
+  }
+
+  /// Check if any of the field of this instance other than city and postal code.
+  bool get checkEmpty {
+    return houseNumber.isEmpty ||
+        road.isEmpty ||
+        neighbourhood.isEmpty ||
+        suburb.isEmpty ||
+        district.isEmpty ||
+        state.isEmpty ||
+        country.isEmpty ||
+        countryCode.isEmpty;
   }
 
   /// Copy this [Address] with the given attributes if given not null.
