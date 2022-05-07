@@ -4,24 +4,28 @@ import 'package:get_storage/get_storage.dart';
 import 'model/address.dart';
 import 'model/coordinate.dart';
 import 'model/geocoding.dart';
+import 'model/locale.dart';
 
 /// [NominatimStorage] is store cache on the store using [GetStorage].
 class NominatimStorage {
   /// Get storage object. Stictly use this getter to create object.
   static NominatimStorage get to => Get.find();
 
-  /// [GetStorage] object with the specified container name.
+  /// Constructor to initialize the storage with [int] caching number in storage.
+  const NominatimStorage(this._numberCached);
+
+  /// [GetStorage] object [_storage] with the specified container name.
   static final GetStorage _storage =
       GetStorage('Flutter-Nominatim-Skymind-Package');
 
-  /// const [String] key for the last sent request using the package.
+  /// const [String] key [_lastSent] for the last sent request using the package.
   static const String _lastSent = 'LAST_SENT';
 
-  /// const [String] key for the cached requests.
+  /// const [String] key [_cachedData] for the cached requests.
   static const String _cachedData = 'CACHED_DATA';
 
-  /// const [int] value for the number of cached requests.
-  static const int _numberCached = 100;
+  /// final [int] value [_numberCached] for the number of cached requests.
+  final int _numberCached;
 
   /// Clear all storage.
   Future<void> clearAll() => _storage.erase();
@@ -55,11 +59,17 @@ class NominatimStorage {
   }
 
   /// Get cached data of geocoding request based on [Coordinate].
-  Geocoding? getCachedCoordinateData(Coordinate coordinate) {
+  Geocoding? getCachedCoordinateData(
+    Coordinate coordinate, {
+    Locale locale = Locale.EN,
+  }) {
     List? datas = _storage.read<List>(_cachedData);
     if (datas != null) {
       Geocoding? coding = datas.firstWhere(
-        (data) => Geocoding.fromJson(data).coordinate == coordinate,
+        (data) {
+          Geocoding code = Geocoding.fromJson(data);
+          return code.coordinate == coordinate && code.address.locale == locale;
+        },
         orElse: () => null,
       );
       return coding;
@@ -77,7 +87,8 @@ class NominatimStorage {
         if (code.address == address ||
             (address.checkEmpty &&
                 code.address.city == address.city &&
-                code.address.postalCode == address.postalCode)) {
+                code.address.postalCode == address.postalCode &&
+                code.address.locale == address.locale)) {
           coding = code;
           break;
         }

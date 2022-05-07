@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'model/coordinate.dart';
 import 'model/geocoding.dart';
 import 'model/address.dart';
+import 'model/locale.dart';
 import 'nominatim_provider.dart';
 import 'nominatim_service.dart';
 import 'nominatim_storage.dart';
@@ -22,10 +23,12 @@ class NominatimGeocoding {
   static NominatimGeocoding get to => Get.find();
 
   /// Initialize the package before start using the package.
-  static Future<void> init() async {
+  /// [reqCacheNum] of type [int] is number of request to be cached in storage.
+  /// Defaults to value 100.
+  static Future<void> init({int reqCacheNum = 100}) async {
     await GetStorage.init('Flutter-Nominatim-Skymind-Package');
     Get.put(NominatimService());
-    Get.put(NominatimStorage());
+    Get.put(NominatimStorage(reqCacheNum));
     Get.put(NominatimProvider());
     Get.put(NominatimGeocoding());
   }
@@ -62,13 +65,19 @@ class NominatimGeocoding {
   }
 
   /// Reverse geocoding of the address with [coordinate].
-  Future<Geocoding> reverseGeoCoding(Coordinate coordinate) async {
-    Geocoding? result = _storage.getCachedCoordinateData(coordinate);
+  Future<Geocoding> reverseGeoCoding(
+    Coordinate coordinate, {
+    Locale locale = Locale.EN,
+  }) async {
+    Geocoding? result = _storage.getCachedCoordinateData(
+      coordinate,
+      locale: locale,
+    );
     if (result != null) {
       return result;
     } else {
       if (_storage.isLastSentSafe()) {
-        result = await _service.reverseCoding(coordinate);
+        result = await _service.reverseCoding(coordinate, locale: locale);
         _storage.updateLastSent();
         _storage.updateCacheData(result);
         return result;

@@ -9,7 +9,7 @@ Flutter package to get forward and reverse geocoding.
 
 ## Features
 
-- Automatically stores cache upto 20 requests.
+- Automatically stores cache upto n number of requests.
 - Restriction: Only 1 request per second is allowed to send.
 
 ## Steps use
@@ -17,14 +17,14 @@ Flutter package to get forward and reverse geocoding.
 Add dependency in `pubspec.yaml` file as
 
 ```yaml
-nominatim_geocoding: ^0.0.5
+nominatim_geocoding: 0.0.6
 ```
 
 ### Initialize the package
 
 ```dart
 void main() async {
-    await NominatimGeocoding.init();
+    await NominatimGeocoding.init(reqCacheNum: 20);
 }
 ```
 

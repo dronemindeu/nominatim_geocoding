@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 
+import 'locale.dart';
+
 /// [Address] represents the actual location address
 /// with attributes as follows:
 /// [houseNumber], [road], [neighbourhood],
 /// [suburb], [city], [district], [state], [postalCode],
-/// [country], [countryCode].
+/// [country], [countryCode], [locale].
 class Address extends Equatable {
   /// [houseNumber] of the location.
   final String houseNumber;
@@ -36,6 +38,9 @@ class Address extends Equatable {
   /// [countryCode] of the location.
   final String countryCode;
 
+  /// [locale] of the location.
+  final Locale locale;
+
   const Address({
     this.houseNumber = '',
     this.road = '',
@@ -47,6 +52,7 @@ class Address extends Equatable {
     required this.postalCode,
     this.country = '',
     this.countryCode = '',
+    this.locale = Locale.EN,
   });
 
   /// Create [Address] from json [Map] object.
@@ -69,6 +75,11 @@ class Address extends Equatable {
           : 0,
       country: json.containsKey('country') ? json['country'] : '',
       countryCode: json.containsKey('country_code') ? json['country_code'] : '',
+      locale: json.containsKey('locale')
+          ? int.tryParse(json['locale']) != null
+              ? Locale.values[int.tryParse(json['locale'])!]
+              : Locale.EN
+          : Locale.EN,
     );
   }
 
@@ -85,12 +96,13 @@ class Address extends Equatable {
       'postcode': postalCode,
       'country': country,
       'country_code': countryCode,
+      'locale': locale.index.toString(),
     };
   }
 
   @override
   String toString() {
-    return 'Address(house_number: $houseNumber, road: $road, neighbourhood: $neighbourhood, suburb: $suburb, city: $city, district: $district, state: $state, postcode: $postalCode, country: $country, country_code: $countryCode)';
+    return 'Address(house_number: $houseNumber, road: $road, neighbourhood: $neighbourhood, suburb: $suburb, city: $city, district: $district, state: $state, postcode: $postalCode, country: $country, country_code: $countryCode, locale: ${locale.name.toLowerCase()})';
   }
 
   /// Get [String] request of the this instance
@@ -123,6 +135,7 @@ class Address extends Equatable {
     int? postalCode,
     String? country,
     String? countryCode,
+    Locale? locale,
   }) {
     return Address(
       houseNumber: houseNumber ?? this.houseNumber,
@@ -135,6 +148,7 @@ class Address extends Equatable {
       postalCode: postalCode ?? this.postalCode,
       country: country ?? this.country,
       countryCode: countryCode ?? this.countryCode,
+      locale: locale ?? this.locale,
     );
   }
 
@@ -150,5 +164,6 @@ class Address extends Equatable {
         postalCode,
         country,
         countryCode,
+        locale,
       ];
 }

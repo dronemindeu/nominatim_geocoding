@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'model/coordinate.dart';
 import 'model/geocoding.dart';
+import 'model/locale.dart';
 
 /// [NominatimProvider] provider class to call OSM nominatim API
 /// docs at `https://nominatim.org/release-docs/develop/`.
@@ -40,22 +41,32 @@ class NominatimProvider extends GetConnect {
   }
 
   /// API call for the forward geocoding with address query.
-  Future<Response<dynamic>> forwardRequest(String queryAddress) => get(
+  Future<Response<dynamic>> forwardRequest(
+    String queryAddress, {
+    Locale locale = Locale.EN,
+  }) =>
+      get(
         forwardPath,
         query: {
           'q': queryAddress,
           'format': 'json',
           'addressdetails': '1',
+          'accept-language': locale.name.toLowerCase(),
         },
       );
 
   /// API call for the reverse geocoding with coordinates query.
-  Future<Response<dynamic>> reverseRequest(Coordinate coordinate) => get(
+  Future<Response<dynamic>> reverseRequest(
+    Coordinate coordinate, {
+    Locale locale = Locale.EN,
+  }) =>
+      get(
         reversePath,
         query: {
           ...coordinate.toJson(),
           'format': 'json',
           'addressdetails': '1',
+          'accept-language': locale.name.toLowerCase(),
         },
       );
 }

@@ -20,7 +20,12 @@
 
 library nominatim_geocoding;
 
+// export 'src/nominatim_provider.dart' hide NominatimProvider;
+// export 'src/nominatim_service.dart' hide NominatimService;
+// export 'src/nominatim_storage.dart' hide NominatimStorage;
+
 export 'src/model/address.dart' show Address;
 export 'src/model/coordinate.dart' show Coordinate;
+export 'src/model/locale.dart' show Locale;
 export 'src/model/geocoding.dart' show Geocoding;
 export 'src/nominatim_geocoding.dart' show NominatimGeocoding;

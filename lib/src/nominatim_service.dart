@@ -4,6 +4,7 @@ import 'package:nominatim_geocoding/src/nominatim_provider.dart';
 
 import 'model/address.dart';
 import 'model/coordinate.dart';
+import 'model/locale.dart';
 
 /// [NominatimService] to response mapping and forwarding calls to [NominatimProvider].
 class NominatimService {
@@ -14,7 +15,11 @@ class NominatimService {
   static final NominatimProvider _provider = NominatimProvider.to;
 
   /// Response mapping into [Geocoding] object or throw [Exception] with message on error response.
-  Geocoding _responseMapping(Response response, [int postalCode = 0]) {
+  Geocoding _responseMapping(
+    Response response, [
+    Locale locale = Locale.EN,
+    int postalCode = 0,
+  ]) {
     if (response.status.hasError) {
       if (response.status.isUnauthorized) {
         throw Exception('Unauthorized error');
@@ -36,15 +41,32 @@ class NominatimService {
           ),
         );
       }
+      result = result.copyWith(
+        address: result.address.copyWith(
+          locale: locale,
+        ),
+      );
       return result;
     }
   }
 
   /// Provider call for the forward geocoding with [address] instance of [Address] query.
   Future<Geocoding> forwardCoding(Address address) async => _responseMapping(
-      await _provider.forwardRequest(address.requestStr), address.postalCode);
+        await _provider.forwardRequest(
+          address.requestStr,
+          locale: address.locale,
+        ),
+        address.locale,
+        address.postalCode,
+      );
 
   /// Provider call for the reverse geocoding with [coordinate] instance of [Coordinate] query.
-  Future<Geocoding> reverseCoding(Coordinate coordinate) async =>
-      _responseMapping(await _provider.reverseRequest(coordinate));
+  Future<Geocoding> reverseCoding(
+    Coordinate coordinate, {
+    Locale locale = Locale.EN,
+  }) async =>
+      _responseMapping(
+        await _provider.reverseRequest(coordinate, locale: locale),
+        locale,
+      );
 }

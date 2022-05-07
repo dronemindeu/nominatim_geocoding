@@ -19,4 +19,9 @@
 ## 0.0.5
 
 * Updated the forward geocoding to accept the parameter as Address instance.
-* Updated the example for forward geocoding
+* Updated the example for forward geocoding.
+
+## 0.0.6
+
+* Updated the geocoding to accept the language code using 'Locale' optional parameter in the Address class object or in the request.
+* NominatimGeocoding package can be initialized with cache request number dynamically.
